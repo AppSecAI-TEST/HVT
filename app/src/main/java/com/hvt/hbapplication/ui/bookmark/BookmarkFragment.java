@@ -2,6 +2,7 @@ package com.hvt.hbapplication.ui.bookmark;
 
 
 import android.content.Context;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -86,8 +87,8 @@ public class BookmarkFragment extends BaseFragment implements BookmarkView, OnCl
     }
 
     @Override
-    public void displayFolksBookmarked(List<FolkBookmark> folkBookmarks) {
-        adapter.setData(folkBookmarks);
+    public void displayFolksBookmarked(List<FolkBookmark> folkBookmarks, DiffUtil.DiffResult diffResult) {
+        adapter.setData(folkBookmarks, diffResult);
     }
 
     @Override

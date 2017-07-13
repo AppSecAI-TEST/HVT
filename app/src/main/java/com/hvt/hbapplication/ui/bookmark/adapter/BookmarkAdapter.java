@@ -10,14 +10,9 @@ import com.hvt.hbapplication.data.model.FolkBookmark;
 import com.hvt.hbapplication.ui.BaseAdapter;
 import com.hvt.hbapplication.ui.OnClickItemListener;
 import com.hvt.hbapplication.ui.bookmark.adapter.viewholder.BookmarkViewHolder;
-import com.hvt.hbapplication.util.recyclerview.BookmarkDiffUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 
 public class BookmarkAdapter extends BaseAdapter<BookmarkViewHolder> {
@@ -46,14 +41,13 @@ public class BookmarkAdapter extends BaseAdapter<BookmarkViewHolder> {
         this.starListener = starListener;
     }
 
-    public void setData(List<FolkBookmark> data) {
-        Single.fromCallable(() -> DiffUtil.calculateDiff(new BookmarkDiffUtil(folksSaved, data)))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(diffResult -> {
-                    folksSaved.clear();
-                    folksSaved.addAll(data);
-                    diffResult.dispatchUpdatesTo(BookmarkAdapter.this);
-                });
+    public void setData(List<FolkBookmark> data, DiffUtil.DiffResult diffResult) {
+        folksSaved.clear();
+        folksSaved.addAll(data);
+        if (diffResult != null) {
+            diffResult.dispatchUpdatesTo(this);
+        } else {
+            notifyDataSetChanged();
+        }
     }
 }

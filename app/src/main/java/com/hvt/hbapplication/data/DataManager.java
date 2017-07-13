@@ -19,6 +19,7 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 
 public class DataManager {
 
@@ -75,12 +76,6 @@ public class DataManager {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<List<FolkBookmark>> getFolksBookmarked() {
-        return Observable.defer(() -> Observable.just(loadFolksBookmarkedFromDB()))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
     private List<FolkBookmark> loadFolksBookmarkedFromDB() {
         return new Select().from(FolkBookmark.class).execute();
     }
@@ -117,5 +112,12 @@ public class DataManager {
         if (folkSaved != null) return true;
 
         return false;
+    }
+
+    public void getFolksBookmarked(PublishSubject<List<FolkBookmark>> observeChange) {
+        Observable.defer(() -> Observable.just(loadFolksBookmarkedFromDB()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(folkBookmarks -> observeChange.onNext(folkBookmarks));
     }
 }
