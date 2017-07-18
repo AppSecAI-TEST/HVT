@@ -127,10 +127,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.commit();
-//        ObjectAnimator alphaAnimation = ObjectAnimator.ofFloat(viewPager, View.ALPHA, 0, 1);
-//        alphaAnimation.setDuration(200);
-//        alphaAnimation.start();
-//        viewPager.setCurrentItem(position, false);
     }
 
     @Override
@@ -146,7 +142,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     public void updateViewLanguage(String newLang) {
-        homeFragment.updateViewLanguage(newLang);
+//        homeFragment.updateViewLanguage(newLang);
     }
 
     @Override
