@@ -8,7 +8,6 @@ import android.preference.PreferenceManager;
 import com.activeandroid.ActiveAndroid;
 import com.hvt.hbapplication.network.ApiClient;
 import com.hvt.hbapplication.util.LocaleHelper;
-import com.squareup.leakcanary.LeakCanary;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -30,13 +29,6 @@ public class MyApplication extends Application {
         ActiveAndroid.initialize(this);
         application = this;
         createApiClient();
-
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return;
-        }
-        LeakCanary.install(this);
     }
 
     public static MyApplication getApplication() {
